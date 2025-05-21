@@ -31,7 +31,7 @@ const NewArticle = () => {
       });
 
       alert("Artigo criado com sucesso!");
-      navigate("/"); // redireciona após criação
+      navigate("/articles"); // <-- redireciona para lista de artigos
     } catch (err) {
       console.error(err);
       alert("Erro ao criar artigo.");
@@ -39,7 +39,6 @@ const NewArticle = () => {
   };
 
   return (
-    
     <div>
       <Navbar /> {/* 👈 Navbar aparece no topo da página */}
       <h2>Criar novo artigo</h2>
