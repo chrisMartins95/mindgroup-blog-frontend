@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../services/api'; // <- importando o axios configurado
+import { api } from '../services/api';
+import { useAuth } from '../hooks/useAuth'; // 👈 importar o hook do contexto
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', senha: '' });
   const navigate = useNavigate();
+  const { login } = useAuth(); // 👈 usar o login do contexto
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,10 +15,13 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await api.post('/auth/login', form);  // <-- usei api.post aqui
-      localStorage.setItem('token', res.data.token);
+      const res = await api.post('/api/auth/login', form);
+
+      const { token, user } = res.data;
+
+      login(token, user); // 👈 salvar no contexto e localStorage
       alert('Login realizado com sucesso!');
-      navigate('/artigos'); // redireciona após login
+      navigate('/new-article');
     } catch (err: any) {
       alert('Erro no login: ' + (err.response?.data?.error || err.message));
     }
