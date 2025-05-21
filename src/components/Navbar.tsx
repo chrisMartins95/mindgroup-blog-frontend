@@ -10,59 +10,72 @@ const Navbar = () => {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "1.5rem",
+        justifyContent: "space-between", // 🔧 garante espaçamento automático
         padding: "1rem 2rem",
         background: "#f4f4f4",
         boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
       }}
     >
-      {/* Links sempre visíveis */}
-      <Link to="/" style={{ fontWeight: "bold", textDecoration: "none" }}>
-        🏠 Início
-      </Link>
+      {/* Links à esquerda */}
+      <div style={{ display: "flex", gap: "1.5rem" }}>
+        <Link to="/" style={{ fontWeight: "bold", textDecoration: "none" }}>
+          🏠 Início
+        </Link>
 
-      <Link to="/articles" style={{ textDecoration: "none" }}>
-        📰 Artigos
-      </Link>
+        <Link to="/articles" style={{ textDecoration: "none" }}>
+          📰 Artigos
+        </Link>
 
-      {/* Se estiver logado */}
-      {user ? (
-        <>
+        {user && (
           <Link to="/new-article" style={{ textDecoration: "none" }}>
             ✍️ Novo Artigo
           </Link>
-          {/* Espaço flexível pra empurrar o botão para a direita */}
-          <div style={{ marginLeft: "auto" }}>
-            <button
-              onClick={logout}
+        )}
+      </div>
+
+      {/* Ações à direita */}
+      <div>
+        {user ? (
+          <button
+            onClick={logout}
+            style={{
+              cursor: "pointer",
+              padding: "0.4rem 0.8rem",
+              border: "none",
+              borderRadius: "4px",
+              backgroundColor: "#e74c3c",
+              color: "white",
+              fontWeight: "bold",
+            }}
+          >
+            🔓 Sair
+          </button>
+        ) : (
+          <>
+            <Link
+              to="/login"
               style={{
-                cursor: "pointer",
-                padding: "0.4rem 0.8rem",
-                border: "none",
-                borderRadius: "4px",
-                backgroundColor: "#e74c3c",
-                color: "white",
-                fontWeight: "bold",
+                marginRight: "1rem",
+                textDecoration: "none",
+                color: "#333",
               }}
             >
-              🔓 Sair
-            </button>
-          </div>
-        </>
-      ) : (
-        // Se não estiver logado, pode ter opções de login/cadastro aqui, se quiser
-        <div style={{ marginLeft: "auto" }}>
-          <Link to="/login" style={{ marginRight: "1rem", textDecoration: "none" }}>
-            🔑 Login
-          </Link>
-          <Link to="/cadastro" style={{ textDecoration: "none" }}>
-            📝 Cadastro
-          </Link>
-        </div>
-      )}
+              🔑 Login
+            </Link>
+            <Link
+              to="/cadastro"
+              style={{
+                textDecoration: "none",
+                color: "#333",
+              }}
+            >
+              📝 Cadastro
+            </Link>
+          </>
+        )}
+      </div>
     </nav>
   );
 };
 
 export default Navbar;
-

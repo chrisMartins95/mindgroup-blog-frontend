@@ -1,11 +1,10 @@
-import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ importa o hook para redirecionar
-import type { ReactNode } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   id: number;
   email: string;
-  // você pode adicionar outras propriedades do usuário aqui
+  // Adicione aqui outras propriedades que você queira do usuário
 }
 
 interface AuthContextType {
@@ -15,7 +14,6 @@ interface AuthContextType {
   logout: () => void;
 }
 
-// Cria o contexto com valores padrão vazios
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   token: null,
@@ -30,20 +28,25 @@ interface Props {
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const navigate = useNavigate(); // ✅ cria o hook aqui
+  const navigate = useNavigate();
 
-  // Quando o componente monta, tenta recuperar o token e user do localStorage
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     const savedUser = localStorage.getItem("user");
 
     if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      try {
+        const parsedUser = JSON.parse(savedUser);
+        setToken(savedToken);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Erro ao analisar usuário do localStorage:", error);
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+      }
     }
   }, []);
 
-  // Função para fazer login: guarda token e usuário no estado e localStorage
   const login = (newToken: string, newUser: User) => {
     setToken(newToken);
     setUser(newUser);
@@ -51,13 +54,12 @@ export const AuthProvider = ({ children }: Props) => {
     localStorage.setItem("user", JSON.stringify(newUser));
   };
 
-  // ✅ Função para logout com redirecionamento para /login
   const logout = () => {
     setToken(null);
     setUser(null);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/login"); // redireciona após logout
+    navigate("/login");
   };
 
   return (

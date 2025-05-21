@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth"; // 👈 importar o hook do auth
 
 interface Article {
   id: number;
@@ -12,6 +13,7 @@ interface Article {
     type: string;
     data: number[];
   } | null;
+  autor_id: number;
 }
 
 function bufferToBase64(buffer: { data: number[] } | null | undefined): string | null {
@@ -28,6 +30,9 @@ const ArticleView: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+  const { user, token } = useAuth(); // 👈 pega user e token do contexto
+
   useEffect(() => {
     async function fetchArticle() {
       try {
@@ -39,8 +44,27 @@ const ArticleView: React.FC = () => {
         setLoading(false);
       }
     }
+
     fetchArticle();
   }, [id]);
+
+  const handleDelete = async () => {
+    const confirmar = window.confirm("Deseja realmente excluir este artigo?");
+    if (!confirmar || !token) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/api/articles/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert("Artigo excluído com sucesso!");
+      navigate("/");
+    } catch (err) {
+      alert("Erro ao excluir o artigo.");
+      console.error(err);
+    }
+  };
 
   if (loading) return <p>Carregando artigo...</p>;
   if (error) return <p>{error}</p>;
@@ -68,6 +92,40 @@ const ArticleView: React.FC = () => {
       <div style={{ marginTop: "2rem" }}>
         <p>{article.conteudo}</p>
       </div>
+
+      {/* 🔐 Mostrar botões apenas se o usuário logado for o autor */}
+      {user?.id === article.autor_id && (
+        <div style={{ marginTop: "2rem" }}>
+          <button
+            onClick={() => navigate(`/articles/${article.id}/edit`)} // ✅ Corrigido aqui
+            style={{
+              marginRight: "1rem",
+              padding: "0.5rem 1rem",
+              background: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            ✏️ Editar
+          </button>
+
+          <button
+            onClick={handleDelete}
+            style={{
+              padding: "0.5rem 1rem",
+              background: "#dc3545",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            🗑️ Excluir
+          </button>
+        </div>
+      )}
     </div>
   );
 };

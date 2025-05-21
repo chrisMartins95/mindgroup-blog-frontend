@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import NewArticle from './pages/NewArticle';
 import ArticlesList from "./pages/ArticlesList";
 import ArticleView from "./pages/ArticleView";
+import EditArticle from "./pages/EditArticle";
 
 
 createRoot(document.getElementById('root')!).render(
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')!).render(
           />
           <Route path="/articles" element={<ArticlesList />} /> {/* <-- Adiciona aqui */}
           <Route path="/articles/:id" element={<ArticleView />} />
+          <Route path="/articles/:id/edit" element={<EditArticle />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

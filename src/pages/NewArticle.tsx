@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from '../components/Navbar';
 
 const NewArticle = () => {
-  const { token } = useAuth();
+  const { user, token } = useAuth(); // ✅ usar user do contexto
   const navigate = useNavigate();
 
   const [titulo, setTitulo] = useState("");
@@ -15,9 +15,16 @@ const NewArticle = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!user) {
+      alert("Usuário não autenticado.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("titulo", titulo);
     formData.append("conteudo", conteudo);
+    formData.append("autor_id", String(user.id)); // ✅ autor_id com base no user do contexto
+
     if (imagem) {
       formData.append("imagem", imagem);
     }
@@ -31,7 +38,7 @@ const NewArticle = () => {
       });
 
       alert("Artigo criado com sucesso!");
-      navigate("/articles"); // <-- redireciona para lista de artigos
+      navigate("/articles");
     } catch (err) {
       console.error(err);
       alert("Erro ao criar artigo.");
@@ -40,7 +47,7 @@ const NewArticle = () => {
 
   return (
     <div>
-      <Navbar /> {/* 👈 Navbar aparece no topo da página */}
+      <Navbar />
       <h2>Criar novo artigo</h2>
       <form onSubmit={handleSubmit}>
         <div>
