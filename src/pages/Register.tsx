@@ -51,14 +51,16 @@ export default function Register() {
     <div
       style={{
         position: 'relative',
-        width: '375px',
-        height: '812px',
+        maxWidth: '400px',  // largura máxima para telas grandes
+        width: '90%',       // 90% da largura da tela para telas pequenas
+        minHeight: '100vh', // altura mínima para ocupar toda a tela
         margin: '0 auto',
         backgroundColor: '#FFFFFF',
-        padding: '70px 36px',
+        padding: '70px 20px 40px', // padding adaptado
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        boxSizing: 'border-box',
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
@@ -83,6 +85,7 @@ export default function Register() {
               lineHeight: '21px',
               color: '#1B1B1B',
               textAlign: 'justify',
+              margin: 0,
             }}
           >
             Crie sua conta para explorar conteúdos incríveis, seguir autores e participar da comunidade.
@@ -170,6 +173,7 @@ export default function Register() {
               fontWeight: 600,
               fontSize: '16px',
               cursor: 'pointer',
+              width: '100%', // botão com largura 100%
             }}
           >
             Criar conta
@@ -211,4 +215,5 @@ const inputStyle = {
   fontFamily: "'Inter', sans-serif",
   color: '#1B1B1B',
   boxSizing: 'border-box' as const,
+  width: '100%', // inputs com largura 100% para responsividade
 };

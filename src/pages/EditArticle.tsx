@@ -52,31 +52,61 @@ const EditArticle = () => {
   if (loading) return <p style={{ textAlign: "center" }}>Carregando...</p>;
 
   return (
-    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto", fontFamily: "Arial" }}>
-      {/* Título da página */}
-      <h2 style={{ fontSize: "20px", marginBottom: "20px", textAlign: "center" }}>✏️ Editar Artigo</h2>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "600px",
+        margin: "0 auto",
+        fontFamily: "Arial, sans-serif",
+        width: "90%",
+        boxSizing: "border-box",
+      }}
+    >
+      <h2 style={{ fontSize: "22px", marginBottom: "20px", textAlign: "center" }}>
+        ✏️ Editar Artigo
+      </h2>
 
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+      >
         {/* Campo imagem */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Nova Imagem (opcional)</label>
+          <label
+            style={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginBottom: "6px",
+            }}
+          >
+            Nova Imagem (opcional)
+          </label>
           <input
             type="file"
             accept="image/*"
             onChange={(e) => setImagem(e.target.files?.[0] || null)}
             style={{
               height: "40px",
-              padding: "10px",
+              padding: "6px 10px",
               border: "1px solid #ccc",
               borderRadius: "6px",
-              fontSize: "12px"
+              fontSize: "14px",
+              boxSizing: "border-box",
             }}
           />
         </div>
 
         {/* Campo título */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Título</label>
+          <label
+            style={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginBottom: "6px",
+            }}
+          >
+            Título
+          </label>
           <input
             type="text"
             value={titulo}
@@ -88,26 +118,36 @@ const EditArticle = () => {
               padding: "10px",
               border: "1px solid #ccc",
               borderRadius: "6px",
-              fontSize: "14px"
+              fontSize: "16px",
+              boxSizing: "border-box",
             }}
           />
         </div>
 
         {/* Campo conteúdo */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Texto</label>
+          <label
+            style={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginBottom: "6px",
+            }}
+          >
+            Texto
+          </label>
           <textarea
             value={conteudo}
             onChange={(e) => setConteudo(e.target.value)}
             required
             placeholder="Edite seu artigo"
             style={{
-              minHeight: "120px",
+              minHeight: "140px",
               padding: "10px",
               border: "1px solid #ccc",
               borderRadius: "6px",
-              fontSize: "14px",
-              resize: "vertical"
+              fontSize: "16px",
+              resize: "vertical",
+              boxSizing: "border-box",
             }}
           />
         </div>
@@ -121,10 +161,17 @@ const EditArticle = () => {
             color: "#fff",
             border: "none",
             borderRadius: "10px",
-            fontSize: "14px",
+            fontSize: "16px",
             fontWeight: "bold",
-            cursor: "pointer"
+            cursor: "pointer",
+            transition: "background-color 0.3s ease",
           }}
+          onMouseEnter={(e) =>
+            ((e.target as HTMLButtonElement).style.backgroundColor = "#333")
+          }
+          onMouseLeave={(e) =>
+            ((e.target as HTMLButtonElement).style.backgroundColor = "#1b1b1b")
+          }
         >
           Salvar Alterações
         </button>

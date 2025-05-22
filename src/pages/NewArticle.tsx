@@ -36,7 +36,7 @@ const NewArticle = () => {
       });
 
       alert("Artigo criado com sucesso!");
-      navigate("/articles");
+      navigate("/home");
     } catch (err) {
       console.error(err);
       alert("Erro ao criar artigo.");
@@ -44,31 +44,71 @@ const NewArticle = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto", fontFamily: "Arial" }}>
-      {/* Título da página */}
-      <h2 style={{ fontSize: "20px", marginBottom: "20px", textAlign: "center" }}>Novo Artigo</h2>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "600px",
+        margin: "0 auto",
+        fontFamily: "Arial, sans-serif",
+        width: "90%",
+        boxSizing: "border-box",
+      }}
+    >
+      <h2
+        style={{
+          fontSize: "22px",
+          marginBottom: "20px",
+          textAlign: "center",
+        }}
+      >
+        Novo Artigo
+      </h2>
 
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+        }}
+      >
         {/* Campo imagem */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Banner</label>
+          <label
+            style={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginBottom: "6px",
+            }}
+          >
+            Banner
+          </label>
           <input
             type="file"
             accept="image/*"
             onChange={(e) => setImagem(e.target.files?.[0] || null)}
             style={{
               height: "40px",
-              padding: "10px",
+              padding: "6px 10px",
               border: "1px solid #ccc",
               borderRadius: "6px",
-              fontSize: "12px"
+              fontSize: "14px",
+              boxSizing: "border-box",
             }}
           />
         </div>
 
         {/* Campo título */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Título</label>
+          <label
+            style={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginBottom: "6px",
+            }}
+          >
+            Título
+          </label>
           <input
             type="text"
             value={titulo}
@@ -80,26 +120,36 @@ const NewArticle = () => {
               padding: "10px",
               border: "1px solid #ccc",
               borderRadius: "6px",
-              fontSize: "14px"
+              fontSize: "16px",
+              boxSizing: "border-box",
             }}
           />
         </div>
 
         {/* Campo conteúdo */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Texto</label>
+          <label
+            style={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginBottom: "6px",
+            }}
+          >
+            Texto
+          </label>
           <textarea
             value={conteudo}
             onChange={(e) => setConteudo(e.target.value)}
             required
             placeholder="Escreva seu artigo"
             style={{
-              minHeight: "120px",
+              minHeight: "140px",
               padding: "10px",
               border: "1px solid #ccc",
               borderRadius: "6px",
-              fontSize: "14px",
-              resize: "vertical"
+              fontSize: "16px",
+              resize: "vertical",
+              boxSizing: "border-box",
             }}
           />
         </div>
@@ -113,10 +163,17 @@ const NewArticle = () => {
             color: "#fff",
             border: "none",
             borderRadius: "10px",
-            fontSize: "14px",
+            fontSize: "16px",
             fontWeight: "bold",
-            cursor: "pointer"
+            cursor: "pointer",
+            transition: "background-color 0.3s ease",
           }}
+          onMouseEnter={(e) =>
+            ((e.target as HTMLButtonElement).style.backgroundColor = "#333")
+          }
+          onMouseLeave={(e) =>
+            ((e.target as HTMLButtonElement).style.backgroundColor = "#1b1b1b")
+          }
         >
           Publicar
         </button>

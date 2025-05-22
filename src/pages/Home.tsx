@@ -7,13 +7,16 @@ interface Artigo {
   titulo: string;
   conteudo: string;
   nome: string;
-  imagem?: string;      // <-- imagem opcional
+  imagem?: string;
   createdAt: string;
+  data_publicacao: string;
 }
 
 const Home = () => {
   const [artigos, setArtigos] = useState<Artigo[]>([]);
   const token = localStorage.getItem("token");
+  // Estado para controlar quais artigos estão expandidos (leia mais)
+  const [expandido, setExpandido] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     async function fetchArtigos() {
@@ -32,12 +35,17 @@ const Home = () => {
     fetchArtigos();
   }, [token]);
 
+  const toggleExpandido = (id: number) => {
+    setExpandido((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
   return (
     <div
       style={{
         position: "relative",
-        width: "375px",
-        height: "812px",
+        maxWidth: "600px",
+        width: "100%",
+        height: "100vh",
         margin: "0 auto",
         background: "#FFFFFF",
         padding: "16px 20px",
@@ -47,117 +55,126 @@ const Home = () => {
         overflowY: "auto",
       }}
     >
-      {/* Header */}
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <h2 style={{ fontFamily: "Inter, sans-serif", fontSize: "20px", margin: 0 }}>
-          📰 Todos os Artigos
-        </h2>
-
-        {/* Ícone do usuário */}
-        <div
-          style={{
-            width: "36px",
-            height: "36px",
-            borderRadius: "50%",
-            backgroundColor: "#E0E0E0",
-            cursor: "pointer",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontWeight: 600,
-          }}
-          onClick={() => alert("Menu de opções (Perfil, Meus Artigos, Criar Artigo)")}
-        >
-          👤
-        </div>
-      </div>
-
       {/* Lista de artigos */}
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        {artigos.map((artigo) => (
-          <Link
-            to={`/articles/${artigo.id}`}
-            key={artigo.id}
-            style={{
-              border: "1px solid #E0E0E0",
-              borderRadius: "12px",
-              padding: "16px",
-              textDecoration: "none",
-              color: "#1B1B1B",
-              backgroundColor: "#FAFAFA",
-              fontFamily: "Inter, sans-serif",
-              display: "flex",
-              flexDirection: "column",
-              gap: "8px",
-            }}
-          >
-            {/* Header do card: autor + coração */}
-            <div
+        {artigos.map((artigo) => {
+          const conteudoExpandido = expandido[artigo.id] || false;
+          const textoExibido = conteudoExpandido
+            ? artigo.conteudo
+            : artigo.conteudo.length > 100
+            ? artigo.conteudo.substring(0, 100) + "..."
+            : artigo.conteudo;
+
+          return (
+            <Link
+              to={`/articles/${artigo.id}`}
+              key={artigo.id}
               style={{
+                border: "1px solid #E0E0E0",
+                borderRadius: "12px",
+                padding: "16px",
+                textDecoration: "none",
+                color: "#1B1B1B",
+                backgroundColor: "#FAFAFA",
+                fontFamily: "Inter, sans-serif",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                flexDirection: "column",
+                gap: "8px",
+                maxWidth: "100%",
+                wordWrap: "break-word",
+                boxSizing: "border-box",
+              }}
+              onClick={(e) => {
+                // Para não abrir link ao clicar no botão "Leia mais"
+                if ((e.target as HTMLElement).tagName === "BUTTON") {
+                  e.preventDefault();
+                }
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                {/* Simulação da imagem do autor */}
-                <div
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "50%",
-                    backgroundColor: "#C4C4C4",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    color: "#fff",
-                  }}
-                >
-                  {artigo.nome?.charAt(0).toUpperCase() || "A"}
+              {/* Header do card: autor + coração */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  {/* Simulação da imagem do autor */}
+                  <div
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                      backgroundColor: "#C4C4C4",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      color: "#fff",
+                    }}
+                  >
+                    {artigo.nome?.charAt(0).toUpperCase() || "A"}
+                  </div>
+                  <span style={{ fontSize: "14px" }}>{artigo.nome || "Desconhecido"}</span>
                 </div>
-                <span style={{ fontSize: "14px" }}>{artigo.nome || "Desconhecido"}</span>
+
+                <span style={{ fontSize: "18px", color: "#ff5a5f", cursor: "pointer" }}>♡</span>
               </div>
 
-              <span style={{ fontSize: "18px", color: "#ff5a5f", cursor: "pointer" }}>♡</span>
-            </div>
+              {/* Imagem do artigo, se existir */}
+              {artigo.imagem && (
+                <img
+                  src={`http://localhost:3000/uploads/${artigo.imagem}`}
+                  alt={`Imagem do artigo ${artigo.titulo}`}
+                  style={{
+                    width: "100%",
+                    height: "180px",
+                    objectFit: "cover",
+                    borderRadius: "12px",
+                    marginBottom: "8px",
+                    maxWidth: "100%",
+                  }}
+                />
+              )}
 
-            {/* Imagem do artigo, se existir */}
-            {artigo.imagem && (
-              <img
-                src={`http://localhost:3000/uploads/${artigo.imagem}`}
-                alt={`Imagem do artigo ${artigo.titulo}`}
+              {/* Conteúdo */}
+              <h3 style={{ fontSize: "16px", margin: 0 }}>{artigo.titulo}</h3>
+              <p
                 style={{
-                  width: "100%",
-                  height: "180px",
-                  objectFit: "cover",
-                  borderRadius: "12px",
-                  marginBottom: "8px",
+                  fontSize: "14px",
+                  margin: 0,
+                  whiteSpace: "pre-wrap",
+                  overflowWrap: "break-word",
                 }}
-              />
-            )}
-
-            {/* Conteúdo */}
-            <h3 style={{ fontSize: "16px", margin: 0 }}>{artigo.titulo}</h3>
-            <p style={{ fontSize: "14px", margin: 0 }}>
-              {artigo.conteudo.length > 100
-                ? artigo.conteudo.substring(0, 100) + "..."
-                : artigo.conteudo}
-            </p>
-            <p style={{ fontSize: "12px", color: "#888", margin: 0 }}>
-              Publicado em {new Date(artigo.createdAt).toLocaleDateString()}
-            </p>
-          </Link>
-        ))}
+              >
+                {textoExibido}
+                {artigo.conteudo.length > 100 && (
+                  <button
+                    onClick={() => toggleExpandido(artigo.id)}
+                    style={{
+                      marginLeft: "8px",
+                      background: "none",
+                      border: "none",
+                      color: "#007BFF",
+                      cursor: "pointer",
+                      padding: 0,
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    {conteudoExpandido ? "Mostrar menos" : "Leia mais"}
+                  </button>
+                )}
+              </p>
+              <p style={{ fontSize: "12px", color: "#888", margin: 0 }}>
+                Publicado em {new Date(artigo.data_publicacao).toLocaleDateString("pt-BR")}
+              </p>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

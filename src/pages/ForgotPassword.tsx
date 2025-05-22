@@ -1,21 +1,50 @@
 import { ArrowLeftIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    email: "",
+    novaSenha: "",
+    confirmarNovaSenha: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (form.novaSenha !== form.confirmarNovaSenha) {
+      alert("As senhas não conferem.");
+      return;
+    }
+
+    // Aqui você pode implementar a chamada API para enviar o link de redefinição
+    alert("Link para redefinir senha enviado para seu email (simulado).");
+  };
 
   return (
     <div
       style={{
         position: "relative",
-        width: "375px",
-        height: "812px",
+        maxWidth: "400px",
+        width: "90%",
+        minHeight: "100vh",
         margin: "0 auto",
         backgroundColor: "#FFFFFF",
         display: "flex",
         flexDirection: "column",
-        padding: "70px 36px 0",
+        padding: "70px 20px 40px",
         gap: "70px",
+        boxSizing: "border-box",
       }}
     >
       {/* Header */}
@@ -79,78 +108,64 @@ const ForgotPassword = () => {
 
       {/* Formulário */}
       <main style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-        <form style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "24px" }}
+        >
           <input
             type="email"
+            name="email"
             placeholder="Email"
             required
-            style={{
-              height: "48px",
-              padding: "12px 16px",
-              border: "1px solid #9E9E9E",
-              borderRadius: "6px",
-              fontSize: "14px",
-              fontFamily: "'Inter', sans-serif",
-              color: "#1B1B1B",
-              boxSizing: "border-box",
-            }}
+            value={form.email}
+            onChange={handleChange}
+            style={inputStyle}
           />
 
           <input
             type="password"
+            name="novaSenha"
             placeholder="Nova senha"
             required
-            style={{
-              height: "48px",
-              padding: "12px 16px",
-              border: "1px solid #9E9E9E",
-              borderRadius: "6px",
-              fontSize: "14px",
-              fontFamily: "'Inter', sans-serif",
-              color: "#1B1B1B",
-              boxSizing: "border-box",
-            }}
+            value={form.novaSenha}
+            onChange={handleChange}
+            style={inputStyle}
           />
 
           <input
             type="password"
+            name="confirmarNovaSenha"
             placeholder="Confirmar nova senha"
             required
-            style={{
-              height: "48px",
-              padding: "12px 16px",
-              border: "1px solid #9E9E9E",
-              borderRadius: "6px",
-              fontSize: "14px",
-              fontFamily: "'Inter', sans-serif",
-              color: "#1B1B1B",
-              boxSizing: "border-box",
-            }}
+            value={form.confirmarNovaSenha}
+            onChange={handleChange}
+            style={inputStyle}
           />
-        </form>
 
-        <button
-          style={{
-            height: "50px",
-            width: "100%",
-            backgroundColor: "#1B1B1B",
-            color: "#FAFAFA",
-            border: "none",
-            borderRadius: "20px",
-            fontFamily: "'Inter', sans-serif",
-            fontWeight: 600,
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          Alterar
-        </button>
+          <button
+            type="submit"
+            style={{
+              height: "50px",
+              width: "100%",
+              backgroundColor: "#1B1B1B",
+              color: "#FAFAFA",
+              border: "none",
+              borderRadius: "20px",
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 600,
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            Alterar
+          </button>
+        </form>
 
         <div
           style={{
             display: "flex",
             justifyContent: "center",
-            padding: "0 86px",
+            padding: "0 10px",
             fontFamily: "'Inter', sans-serif",
             fontSize: "10px",
             lineHeight: "12px",
@@ -176,6 +191,18 @@ const ForgotPassword = () => {
       </main>
     </div>
   );
+};
+
+const inputStyle = {
+  height: "48px",
+  padding: "12px 16px",
+  border: "1px solid #9E9E9E",
+  borderRadius: "6px",
+  fontSize: "14px",
+  fontFamily: "'Inter', sans-serif",
+  color: "#1B1B1B",
+  boxSizing: "border-box" as const,
+  width: "100%",
 };
 
 export default ForgotPassword;

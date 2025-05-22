@@ -8,7 +8,11 @@ const Perfil = () => {
   const navigate = useNavigate();
 
   if (!user) {
-    return <p style={{ textAlign: "center", padding: "2rem" }}>Você precisa estar logado para ver o perfil.</p>;
+    return (
+      <p style={{ textAlign: "center", padding: "2rem" }}>
+        Você precisa estar logado para ver o perfil.
+      </p>
+    );
   }
 
   const [nome, setNome] = useState(user.nome || "");
@@ -47,27 +51,37 @@ const Perfil = () => {
   };
 
   return (
-    <div style={{
-      padding: "2rem",
-      maxWidth: "600px",
-      margin: "0 auto",
-      fontFamily: "Arial, sans-serif"
-    }}>
-      <h2 style={{
-        marginBottom: "1.5rem",
-        fontSize: "22px",
-        textAlign: "center"
-      }}>
+    <div
+      style={{
+        padding: "2rem",
+        maxWidth: "600px",
+        margin: "0 auto",
+        fontFamily: "Arial, sans-serif",
+        width: "90%",
+        boxSizing: "border-box",
+      }}
+    >
+      <h2
+        style={{
+          marginBottom: "1.5rem",
+          fontSize: "22px",
+          textAlign: "center",
+        }}
+      >
         👤 Meu Perfil
       </h2>
 
       {/* Avatar e nome do arquivo */}
-      <div style={{
-        marginBottom: "1.5rem",
-        display: "flex",
-        alignItems: "center",
-        gap: "1rem"
-      }}>
+      <div
+        style={{
+          marginBottom: "1.5rem",
+          display: "flex",
+          alignItems: "center",
+          gap: "1rem",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         <img
           src="https://c.animaapp.com/maysj1rlpFyWIb/img/avatar-1.png"
           alt="Avatar"
@@ -75,8 +89,10 @@ const Perfil = () => {
           height={72}
           style={{ borderRadius: "50%" }}
         />
-        <div style={{ flex: 1 }}>
-          <label style={{ display: "block", marginBottom: "0.25rem" }}>Arquivo da imagem:</label>
+        <div style={{ flex: "1 1 200px", minWidth: "200px" }}>
+          <label style={{ display: "block", marginBottom: "0.25rem" }}>
+            Arquivo da imagem:
+          </label>
           <input
             type="text"
             value={avatarFilename}
@@ -85,7 +101,8 @@ const Perfil = () => {
               width: "100%",
               padding: "0.5rem",
               borderRadius: "6px",
-              border: "1px solid #ccc"
+              border: "1px solid #ccc",
+              boxSizing: "border-box",
             }}
           />
         </div>
@@ -102,7 +119,8 @@ const Perfil = () => {
             width: "100%",
             padding: "0.5rem",
             borderRadius: "6px",
-            border: "1px solid #ccc"
+            border: "1px solid #ccc",
+            boxSizing: "border-box",
           }}
         />
       </div>
@@ -119,7 +137,8 @@ const Perfil = () => {
             padding: "0.5rem",
             borderRadius: "6px",
             border: "1px solid #ccc",
-            backgroundColor: "#f9f9f9"
+            backgroundColor: "#f9f9f9",
+            boxSizing: "border-box",
           }}
         />
       </div>
@@ -135,7 +154,8 @@ const Perfil = () => {
             width: "100%",
             padding: "0.5rem",
             borderRadius: "6px",
-            border: "1px solid #ccc"
+            border: "1px solid #ccc",
+            boxSizing: "border-box",
           }}
           placeholder="Digite uma nova senha"
         />
@@ -143,7 +163,9 @@ const Perfil = () => {
 
       {/* Confirmar senha */}
       <div style={{ marginBottom: "1rem" }}>
-        <label style={{ display: "block", marginBottom: "0.25rem" }}>Confirmar Senha:</label>
+        <label style={{ display: "block", marginBottom: "0.25rem" }}>
+          Confirmar Senha:
+        </label>
         <input
           type="password"
           value={confirmarSenha}
@@ -152,7 +174,8 @@ const Perfil = () => {
             width: "100%",
             padding: "0.5rem",
             borderRadius: "6px",
-            border: "1px solid #ccc"
+            border: "1px solid #ccc",
+            boxSizing: "border-box",
           }}
           placeholder="Confirme a nova senha"
         />
@@ -171,8 +194,15 @@ const Perfil = () => {
           borderRadius: "10px",
           fontSize: "15px",
           cursor: "pointer",
-          marginTop: "1rem"
+          marginTop: "1rem",
+          transition: "background-color 0.3s ease",
         }}
+        onMouseEnter={(e) =>
+          ((e.target as HTMLButtonElement).style.backgroundColor = "#333")
+        }
+        onMouseLeave={(e) =>
+          ((e.target as HTMLButtonElement).style.backgroundColor = "#1b1b1b")
+        }
       >
         💾 Salvar Alterações
       </button>

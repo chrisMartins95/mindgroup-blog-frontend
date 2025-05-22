@@ -47,14 +47,14 @@ const Navbar = () => {
       {/* Links principais à esquerda */}
       <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
         <Link to="/home" style={linkEstilo(location.pathname === "/home")}>
-          🏠 Home
+          Home
         </Link>
 
         <Link
           to="/my-articles"
           style={linkEstilo(location.pathname === "/my-articles")}
         >
-          📰 Meus Artigos
+          Meus Artigos
         </Link>
       </div>
 
@@ -120,20 +120,20 @@ const Navbar = () => {
                 }}
                 style={btnStyle}
               >
-                👤 Perfil
+                Perfil
               </button>
               <button
                 onClick={() => {
-                  navigate("/my-articles");
+                  navigate("/new-article");
                   setMenuAberto(false);
                 }}
                 style={btnStyle}
               >
-                ✍️ Novo Artigo
+                Novo Artigo
               </button>
               <hr style={{ margin: "8px 0", borderColor: "#ddd" }} />
               <button onClick={handleLogout} style={btnStyle}>
-                🚪 Sair
+                Sair
               </button>
             </div>
           )}

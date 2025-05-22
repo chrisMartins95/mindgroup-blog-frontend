@@ -9,7 +9,7 @@ interface Article {
   conteudo: string;
   nome: string;
   data_publicacao: string;
-  imagem?: string | null; // <- agora é string (nome do arquivo)
+  imagem?: string | null;
   autor_id: number;
 }
 
@@ -27,9 +27,6 @@ const ArticleView: React.FC = () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/articles/${id}`);
         setArticle(response.data);
-        console.log("Artigo carregado:", response.data);
-        // Veja o valor da imagem:
-        console.log("Valor de article.imagem:", response.data.imagem);
       } catch (err) {
         setError("Erro ao carregar artigo.");
       } finally {
@@ -62,12 +59,62 @@ const ArticleView: React.FC = () => {
   if (error) return <p style={{ textAlign: "center" }}>{error}</p>;
   if (!article) return <p style={{ textAlign: "center" }}>Artigo não encontrado.</p>;
 
+  const containerStyle: React.CSSProperties = {
+    padding: "20px",
+    maxWidth: "600px",
+    margin: "0 auto",
+    fontFamily: "Arial",
+    width: "90%",
+    boxSizing: "border-box",
+  };
+
+  const buttonsContainerStyle: React.CSSProperties = {
+    display: "flex",
+    justifyContent: "center",
+    gap: "10px",
+    flexWrap: "wrap",
+  };
+
+  const buttonStyleBase: React.CSSProperties = {
+    padding: "10px 20px",
+    color: "#fff",
+    border: "none",
+    borderRadius: "10px",
+    fontSize: "14px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    marginBottom: "10px",
+  };
+
+  const editButtonStyle: React.CSSProperties = {
+    ...buttonStyleBase,
+    backgroundColor: "#1b1b1b",
+  };
+
+  const deleteButtonStyle: React.CSSProperties = {
+    ...buttonStyleBase,
+    backgroundColor: "#dc3545",
+  };
+
+  const contentStyle: React.CSSProperties = {
+    marginBottom: "30px",
+    lineHeight: 1.8,
+    fontSize: "16px",
+    whiteSpace: "pre-wrap",
+    backgroundColor: "#f9f9f9",
+    padding: "15px 20px",
+    borderRadius: "8px",
+    textAlign: "justify",
+    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+    overflowWrap: "break-word",
+    maxWidth: "100%",
+    boxSizing: "border-box",
+  };
+
   return (
-    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto", fontFamily: "Arial" }}>
-      {/* Título do artigo */}
+    <div style={containerStyle}>
       <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>{article.titulo}</h1>
 
-      {/* Informações do autor e data */}
       <p style={{ fontSize: "14px", color: "#555", marginBottom: "4px" }}>
         ✍️ <strong>Autor:</strong> {article.nome}
       </p>
@@ -76,7 +123,6 @@ const ArticleView: React.FC = () => {
         {new Date(article.data_publicacao).toLocaleDateString("pt-BR")}
       </p>
 
-      {/* Imagem */}
       {article.imagem && (
         <img
           src={`http://localhost:3000/uploads/${article.imagem}`}
@@ -86,48 +132,25 @@ const ArticleView: React.FC = () => {
             height: "auto",
             borderRadius: "6px",
             marginBottom: "20px",
-            display: "block"
+            display: "block",
           }}
         />
       )}
 
-      {/* Conteúdo */}
-      <div style={{ marginBottom: "30px", lineHeight: "1.6", fontSize: "15px", whiteSpace: "pre-wrap" }}>
+      <div style={contentStyle}>
         {article.conteudo}
       </div>
 
-      {/* Botões de ação (se autor) */}
       {user?.id === article.autor_id && (
-        <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+        <div style={buttonsContainerStyle}>
           <button
             onClick={() => navigate(`/articles/${article.id}/edit`)}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#1b1b1b",
-              color: "#fff",
-              border: "none",
-              borderRadius: "10px",
-              fontSize: "14px",
-              fontWeight: "bold",
-              cursor: "pointer"
-            }}
+            style={editButtonStyle}
           >
             ✏️ Editar
           </button>
 
-          <button
-            onClick={handleDelete}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#dc3545",
-              color: "#fff",
-              border: "none",
-              borderRadius: "10px",
-              fontSize: "14px",
-              fontWeight: "bold",
-              cursor: "pointer"
-            }}
-          >
+          <button onClick={handleDelete} style={deleteButtonStyle}>
             🗑️ Excluir
           </button>
         </div>
