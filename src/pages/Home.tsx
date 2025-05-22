@@ -64,7 +64,7 @@ const Home = () => {
           return (
             // Cada artigo é um card clicável que leva para a página do artigo
             <Link
-              to={`/articles/{artigo.id}`}
+              to={`/articles/${artigo.id}`}
               key={artigo.id}
               className="artigo-card"
               onClick={(e) => {
@@ -88,8 +88,8 @@ const Home = () => {
               {/* Imagem do artigo, se houver */}
               {artigo.imagem && (
                 <img
-                  src={`http://localhost:3000/uploads/{artigo.imagem}`}
-                  alt={`Imagem do artigo {artigo.titulo}`}
+                  src={`http://localhost:3000/uploads/${artigo.imagem}`}
+                  alt={`Imagem do artigo ${artigo.titulo}`}
                   className="artigo-imagem"
                 />
               )}
