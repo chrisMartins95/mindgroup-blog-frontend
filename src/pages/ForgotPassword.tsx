@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import "../styles/forgotPassword.css";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const ForgotPassword = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm(prev => ({
+    setForm((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -32,86 +33,29 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        maxWidth: "400px",
-        width: "90%",
-        minHeight: "100vh",
-        margin: "0 auto",
-        backgroundColor: "#FFFFFF",
-        display: "flex",
-        flexDirection: "column",
-        padding: "70px 20px 40px",
-        gap: "70px",
-        boxSizing: "border-box",
-      }}
-    >
+    <div className="forgot-container">
       {/* Header */}
       <header>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "24px",
-            marginBottom: "20px",
-          }}
-        >
+        <div className="forgot-header">
           <button
             onClick={() => navigate(-1)}
-            style={{
-              background: "none",
-              border: "none",
-              padding: 0,
-              cursor: "pointer",
-              height: "24px",
-              width: "24px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="back-button"
             aria-label="Voltar"
           >
             <ArrowLeftIcon size={24} />
           </button>
 
-          <h1
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 700,
-              fontSize: "24px",
-              lineHeight: "28.8px",
-              color: "#1B1B1B",
-              margin: 0,
-              textAlign: "center",
-              flex: 1,
-            }}
-          >
-            Esqueci a senha
-          </h1>
+          <h1 className="forgot-title">Esqueci a senha</h1>
         </div>
 
-        <p
-          style={{
-            fontFamily: "'Montserrat', sans-serif",
-            fontWeight: 400,
-            fontSize: "14px",
-            lineHeight: "21px",
-            color: "#1B1B1B",
-            textAlign: "justify",
-            margin: 0,
-          }}
-        >
+        <p className="forgot-description">
           Sem problemas! Informe seu e-mail e enviaremos um link para redefinir sua senha.
         </p>
       </header>
 
       {/* Formulário */}
       <main style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "24px" }}
-        >
+        <form onSubmit={handleSubmit} className="forgot-form">
           <input
             type="email"
             name="email"
@@ -119,7 +63,7 @@ const ForgotPassword = () => {
             required
             value={form.email}
             onChange={handleChange}
-            style={inputStyle}
+            className="forgot-input"
           />
 
           <input
@@ -129,7 +73,7 @@ const ForgotPassword = () => {
             required
             value={form.novaSenha}
             onChange={handleChange}
-            style={inputStyle}
+            className="forgot-input"
           />
 
           <input
@@ -139,50 +83,20 @@ const ForgotPassword = () => {
             required
             value={form.confirmarNovaSenha}
             onChange={handleChange}
-            style={inputStyle}
+            className="forgot-input"
           />
 
-          <button
-            type="submit"
-            style={{
-              height: "50px",
-              width: "100%",
-              backgroundColor: "#1B1B1B",
-              color: "#FAFAFA",
-              border: "none",
-              borderRadius: "20px",
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 600,
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
-          >
+          <button type="submit" className="forgot-button">
             Alterar
           </button>
         </form>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            padding: "0 10px",
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "10px",
-            lineHeight: "12px",
-            color: "#1B1B1B",
-            textAlign: "center",
-          }}
-        >
+        <div className="forgot-footer">
           <p style={{ margin: 0 }}>
             Novo usuário?{" "}
             <span
               onClick={() => navigate("/cadastro")}
-              style={{
-                cursor: "pointer",
-                textDecoration: "underline",
-                fontWeight: 600,
-                color: "#000",
-              }}
+              className="forgot-link"
             >
               Clique aqui
             </span>
@@ -191,18 +105,6 @@ const ForgotPassword = () => {
       </main>
     </div>
   );
-};
-
-const inputStyle = {
-  height: "48px",
-  padding: "12px 16px",
-  border: "1px solid #9E9E9E",
-  borderRadius: "6px",
-  fontSize: "14px",
-  fontFamily: "'Inter', sans-serif",
-  color: "#1B1B1B",
-  boxSizing: "border-box" as const,
-  width: "100%",
 };
 
 export default ForgotPassword;

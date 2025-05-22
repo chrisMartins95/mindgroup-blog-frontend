@@ -1,0 +1,81 @@
+.edit-article-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  width: 90%;
+  box-sizing: border-box;
+}
+
+.loading-text {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 40px;
+}
+
+.edit-article-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.edit-article-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.form-input-file {
+  height: 40px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-input-text {
+  height: 40px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  min-height: 140px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.btn-submit {
+  height: 45px;
+  background-color: #1b1b1b;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #333;
+}

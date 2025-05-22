@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import "../styles/Perfil.css";
 
 const Perfil = () => {
   const { user, token } = useAuth();
@@ -9,7 +10,7 @@ const Perfil = () => {
 
   if (!user) {
     return (
-      <p style={{ textAlign: "center", padding: "2rem" }}>
+      <p className="perfil-restrito">
         Você precisa estar logado para ver o perfil.
       </p>
     );
@@ -51,159 +52,62 @@ const Perfil = () => {
   };
 
   return (
-    <div
-      style={{
-        padding: "2rem",
-        maxWidth: "600px",
-        margin: "0 auto",
-        fontFamily: "Arial, sans-serif",
-        width: "90%",
-        boxSizing: "border-box",
-      }}
-    >
-      <h2
-        style={{
-          marginBottom: "1.5rem",
-          fontSize: "22px",
-          textAlign: "center",
-        }}
-      >
-        👤 Meu Perfil
-      </h2>
+    <div className="perfil-container">
+      <h2 className="perfil-titulo">👤 Meu Perfil</h2>
 
-      {/* Avatar e nome do arquivo */}
-      <div
-        style={{
-          marginBottom: "1.5rem",
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
+      <div className="perfil-avatar-bloco">
         <img
           src="https://c.animaapp.com/maysj1rlpFyWIb/img/avatar-1.png"
           alt="Avatar"
           width={72}
           height={72}
-          style={{ borderRadius: "50%" }}
+          className="perfil-avatar"
         />
-        <div style={{ flex: "1 1 200px", minWidth: "200px" }}>
-          <label style={{ display: "block", marginBottom: "0.25rem" }}>
-            Arquivo da imagem:
-          </label>
+        <div className="perfil-campo">
+          <label>Arquivo da imagem:</label>
           <input
             type="text"
             value={avatarFilename}
             onChange={(e) => setAvatarFilename(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "0.5rem",
-              borderRadius: "6px",
-              border: "1px solid #ccc",
-              boxSizing: "border-box",
-            }}
           />
         </div>
       </div>
 
-      {/* Nome */}
-      <div style={{ marginBottom: "1rem" }}>
-        <label style={{ display: "block", marginBottom: "0.25rem" }}>Nome:</label>
+      <div className="perfil-campo">
+        <label>Nome:</label>
         <input
           type="text"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "0.5rem",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            boxSizing: "border-box",
-          }}
         />
       </div>
 
-      {/* Email (readonly) */}
-      <div style={{ marginBottom: "1rem" }}>
-        <label style={{ display: "block", marginBottom: "0.25rem" }}>Email:</label>
-        <input
-          type="email"
-          value={email}
-          readOnly
-          style={{
-            width: "100%",
-            padding: "0.5rem",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            backgroundColor: "#f9f9f9",
-            boxSizing: "border-box",
-          }}
-        />
+      <div className="perfil-campo">
+        <label>Email:</label>
+        <input type="email" value={email} readOnly className="readonly" />
       </div>
 
-      {/* Senha */}
-      <div style={{ marginBottom: "1rem" }}>
-        <label style={{ display: "block", marginBottom: "0.25rem" }}>Nova Senha:</label>
+      <div className="perfil-campo">
+        <label>Nova Senha:</label>
         <input
           type="password"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "0.5rem",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            boxSizing: "border-box",
-          }}
           placeholder="Digite uma nova senha"
         />
       </div>
 
-      {/* Confirmar senha */}
-      <div style={{ marginBottom: "1rem" }}>
-        <label style={{ display: "block", marginBottom: "0.25rem" }}>
-          Confirmar Senha:
-        </label>
+      <div className="perfil-campo">
+        <label>Confirmar Senha:</label>
         <input
           type="password"
           value={confirmarSenha}
           onChange={(e) => setConfirmarSenha(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "0.5rem",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            boxSizing: "border-box",
-          }}
           placeholder="Confirme a nova senha"
         />
       </div>
 
-      {/* Botão salvar */}
-      <button
-        onClick={handleSalvar}
-        style={{
-          width: "100%",
-          padding: "0.75rem",
-          backgroundColor: "#1b1b1b",
-          color: "#fff",
-          fontWeight: "bold",
-          border: "none",
-          borderRadius: "10px",
-          fontSize: "15px",
-          cursor: "pointer",
-          marginTop: "1rem",
-          transition: "background-color 0.3s ease",
-        }}
-        onMouseEnter={(e) =>
-          ((e.target as HTMLButtonElement).style.backgroundColor = "#333")
-        }
-        onMouseLeave={(e) =>
-          ((e.target as HTMLButtonElement).style.backgroundColor = "#1b1b1b")
-        }
-      >
+      <button onClick={handleSalvar} className="perfil-botao">
         💾 Salvar Alterações
       </button>
     </div>

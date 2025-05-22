@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "../styles/EditArticle.css";
 
 const EditArticle = () => {
   const { id } = useParams<{ id: string }>();
@@ -49,130 +50,47 @@ const EditArticle = () => {
     }
   };
 
-  if (loading) return <p style={{ textAlign: "center" }}>Carregando...</p>;
+  if (loading) return <p className="loading-text">Carregando...</p>;
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "600px",
-        margin: "0 auto",
-        fontFamily: "Arial, sans-serif",
-        width: "90%",
-        boxSizing: "border-box",
-      }}
-    >
-      <h2 style={{ fontSize: "22px", marginBottom: "20px", textAlign: "center" }}>
-        ✏️ Editar Artigo
-      </h2>
+    <div className="edit-article-container">
+      <h2 className="edit-article-title">✏️ Editar Artigo</h2>
 
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-      >
-        {/* Campo imagem */}
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label
-            style={{
-              fontWeight: "bold",
-              fontSize: "14px",
-              marginBottom: "6px",
-            }}
-          >
-            Nova Imagem (opcional)
-          </label>
+      <form onSubmit={handleSubmit} className="edit-article-form">
+        <div className="form-group">
+          <label className="form-label">Nova Imagem (opcional)</label>
           <input
             type="file"
             accept="image/*"
             onChange={(e) => setImagem(e.target.files?.[0] || null)}
-            style={{
-              height: "40px",
-              padding: "6px 10px",
-              border: "1px solid #ccc",
-              borderRadius: "6px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-            }}
+            className="form-input-file"
           />
         </div>
 
-        {/* Campo título */}
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label
-            style={{
-              fontWeight: "bold",
-              fontSize: "14px",
-              marginBottom: "6px",
-            }}
-          >
-            Título
-          </label>
+        <div className="form-group">
+          <label className="form-label">Título</label>
           <input
             type="text"
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
             required
             placeholder="Edite o título"
-            style={{
-              height: "40px",
-              padding: "10px",
-              border: "1px solid #ccc",
-              borderRadius: "6px",
-              fontSize: "16px",
-              boxSizing: "border-box",
-            }}
+            className="form-input-text"
           />
         </div>
 
-        {/* Campo conteúdo */}
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label
-            style={{
-              fontWeight: "bold",
-              fontSize: "14px",
-              marginBottom: "6px",
-            }}
-          >
-            Texto
-          </label>
+        <div className="form-group">
+          <label className="form-label">Texto</label>
           <textarea
             value={conteudo}
             onChange={(e) => setConteudo(e.target.value)}
             required
             placeholder="Edite seu artigo"
-            style={{
-              minHeight: "140px",
-              padding: "10px",
-              border: "1px solid #ccc",
-              borderRadius: "6px",
-              fontSize: "16px",
-              resize: "vertical",
-              boxSizing: "border-box",
-            }}
+            className="form-textarea"
           />
         </div>
 
-        {/* Botão */}
-        <button
-          type="submit"
-          style={{
-            height: "45px",
-            backgroundColor: "#1b1b1b",
-            color: "#fff",
-            border: "none",
-            borderRadius: "10px",
-            fontSize: "16px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            transition: "background-color 0.3s ease",
-          }}
-          onMouseEnter={(e) =>
-            ((e.target as HTMLButtonElement).style.backgroundColor = "#333")
-          }
-          onMouseLeave={(e) =>
-            ((e.target as HTMLButtonElement).style.backgroundColor = "#1b1b1b")
-          }
-        >
+        <button type="submit" className="btn-submit">
           Salvar Alterações
         </button>
       </form>

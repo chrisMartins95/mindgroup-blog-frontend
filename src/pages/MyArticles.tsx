@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import "../styles/MyArticles.css";
 
 type Artigo = {
   id: number;
@@ -62,22 +63,8 @@ const MyArticles = () => {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        maxWidth: "600px",
-        width: "100%",
-        height: "100vh",
-        margin: "0 auto",
-        background: "#FFFFFF",
-        padding: "16px 20px",
-        boxSizing: "border-box",
-        display: "flex",
-        flexDirection: "column",
-        overflowY: "auto",
-      }}
-    >
-      <h2 style={{ marginBottom: "16px" }}>🧑‍💼 Meus Artigos</h2>
+    <div className="myarticles-container">
+      <h2>🧑‍💼 Meus Artigos</h2>
 
       {artigos.length === 0 ? (
         <p>Você ainda não criou nenhum artigo.</p>
@@ -91,131 +78,43 @@ const MyArticles = () => {
             : artigo.conteudo;
 
           return (
-            <div
-              key={artigo.id}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "12px",
-                padding: "16px",
-                width: "100%",
-                boxSizing: "border-box",
-                background: "#fafafa",
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px",
-                wordWrap: "break-word",
-              }}
-            >
+            <div key={artigo.id} className="artigo-card">
               <Link
                 to={`/articles/${artigo.id}`}
-                style={{
-                  color: "inherit",
-                  textDecoration: "none",
-                  display: "block",
-                  wordWrap: "break-word",
-                }}
+                className="artigo-link"
                 onClick={(e) => {
                   if ((e.target as HTMLElement).tagName === "BUTTON") {
                     e.preventDefault();
                   }
                 }}
               >
-                <h3 style={{ margin: "0 0 8px 0" }}>{artigo.titulo}</h3>
+                <h3>{artigo.titulo}</h3>
 
                 {artigo.imagem && (
                   <img
                     src={`http://localhost:3000/uploads/${artigo.imagem}`}
                     alt={`Imagem do artigo ${artigo.titulo}`}
-                    style={{
-                      width: "100%",
-                      height: "180px",
-                      objectFit: "cover",
-                      borderRadius: "12px",
-                      marginBottom: "8px",
-                      maxWidth: "100%",
-                    }}
+                    className="artigo-imagem"
                   />
                 )}
 
-                <p
-                  style={{
-                    margin: 0,
-                    color: "#333",
-                    whiteSpace: "pre-wrap",
-                    overflowWrap: "break-word",
-                    fontSize: "14px",
-                  }}
-                >
+                <p className="artigo-conteudo">
                   {textoExibido}
                   {artigo.conteudo.length > 200 && (
-                    <button
-                      onClick={() => toggleExpandido(artigo.id)}
-                      style={{
-                        marginLeft: "8px",
-                        background: "none",
-                        border: "none",
-                        color: "#007BFF",
-                        cursor: "pointer",
-                        padding: 0,
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        textDecoration: "underline",
-                      }}
-                    >
+                    <button onClick={() => toggleExpandido(artigo.id)} className="leia-mais">
                       {conteudoExpandido ? "Mostrar menos" : "Leia mais"}
                     </button>
                   )}
                 </p>
               </Link>
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  gap: "16px",
-                }}
-              >
-                <Link
-                  to={`/articles/${artigo.id}/edit`}
-                  style={{
-                    color: "#1b1b1b",
-                    fontWeight: "600",
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                    border: "1.5px solid #1b1b1b",
-                    borderRadius: "8px",
-                    padding: "6px 12px",
-                    backgroundColor: "#f0f0f0",
-                    transition: "background-color 0.3s",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#ddd")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#f0f0f0")}
-                >
+              <div className="artigo-actions">
+                <Link to={`/articles/${artigo.id}/edit`} className="btn-editar">
                   ✏️ Editar
                 </Link>
                 <button
                   onClick={() => abrirModalDeletar(artigo)}
-                  style={{
-                    background: "transparent",
-                    border: "1.5px solid red",
-                    color: "red",
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                    fontWeight: "600",
-                    borderRadius: "8px",
-                    padding: "6px 12px",
-                    transition: "background-color 0.3s, color 0.3s",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "red";
-                    e.currentTarget.style.color = "white";
-                    e.currentTarget.style.textDecoration = "none";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                    e.currentTarget.style.color = "red";
-                    e.currentTarget.style.textDecoration = "underline";
-                  }}
+                  className="btn-deletar"
                   aria-label={`Deletar artigo ${artigo.titulo}`}
                 >
                   🗑️ Deletar
@@ -226,68 +125,21 @@ const MyArticles = () => {
         })
       )}
 
-      {/* Modal de confirmação de exclusão */}
       {modalOpen && artigoParaDeletar && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
-          onClick={cancelarDelecao}
-        >
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: "12px",
-              padding: "24px",
-              width: "90%",
-              maxWidth: "375px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-              position: "relative",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="modal-backdrop" onClick={cancelarDelecao}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>Deseja deletar este artigo?</h3>
-            <p style={{ color: "#666", whiteSpace: "pre-wrap" }}>
+            <p>
               {artigoParaDeletar.conteudo.length > 200
                 ? artigoParaDeletar.conteudo.substring(0, 200) + "..."
                 : artigoParaDeletar.conteudo}
             </p>
 
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
-              <button
-                onClick={cancelarDelecao}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: "8px",
-                  border: "1px solid #999",
-                  background: "transparent",
-                  cursor: "pointer",
-                }}
-              >
+            <div className="modal-buttons">
+              <button onClick={cancelarDelecao} className="btn-cancelar">
                 Cancelar
               </button>
-              <button
-                onClick={confirmarDelecao}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: "8px",
-                  border: "none",
-                  backgroundColor: "red",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-              >
+              <button onClick={confirmarDelecao} className="btn-confirmar">
                 Confirmar exclusão
               </button>
             </div>

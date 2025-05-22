@@ -1,21 +1,22 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "../styles/ArticlesList.css";
 
 interface Article {
   id: number;
   titulo: string;
   conteudo: string;
-  nome: string; // nome do autor (vindo de JOIN no backend)
+  nome: string;
   data_publicacao: string;
   imagem?: {
     type: string;
     data: number[];
-  } | null;  // aceita null
+  } | null;
 }
 
 function bufferToBase64(buffer: { data: number[] } | null | undefined): string | null {
-  if (!buffer?.data) return null; 
+  if (!buffer?.data) return null;
   const base64 = btoa(
     new Uint8Array(buffer.data).reduce(
       (data, byte) => data + String.fromCharCode(byte),
@@ -51,11 +52,11 @@ const ArticlesList: React.FC = () => {
     fetchArticles();
   }, [fetchArticles]);
 
-  if (loading) return <p>Carregando artigos...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className="status-msg">Carregando artigos...</p>;
+  if (error) return <p className="status-msg">{error}</p>;
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div className="articles-container">
       <h1>📰 Lista de Artigos</h1>
       {articles.length === 0 ? (
         <p>Nenhum artigo encontrado.</p>
@@ -64,19 +65,8 @@ const ArticlesList: React.FC = () => {
           const imageSrc = artigo.imagem ? bufferToBase64(artigo.imagem) : undefined;
 
           return (
-            <div
-              key={artigo.id}
-              style={{
-                border: "1px solid #ccc",
-                padding: "1rem",
-                marginBottom: "1rem",
-                borderRadius: "8px",
-              }}
-            >
-              <Link
-                to={`/articles/${artigo.id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
+            <div className="article-card" key={artigo.id}>
+              <Link to={`/articles/${artigo.id}`} className="article-link">
                 <h2>{artigo.titulo}</h2>
                 <p>
                   ✍️ <strong>Autor:</strong> {artigo.nome}
@@ -89,7 +79,7 @@ const ArticlesList: React.FC = () => {
                   <img
                     src={imageSrc}
                     alt={artigo.titulo}
-                    style={{ maxWidth: "300px", borderRadius: "6px", marginTop: "1rem" }}
+                    className="article-image"
                   />
                 )}
               </Link>
