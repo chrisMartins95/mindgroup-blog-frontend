@@ -12,8 +12,10 @@ import NewArticle from './pages/NewArticle';
 import ArticlesList from './pages/ArticlesList';
 import ArticleView from './pages/ArticleView';
 import EditArticle from './pages/EditArticle';
-import MyArticles from './pages/MyArticles'; // ✅ IMPORTADO AQUI
+import MyArticles from './pages/MyArticles'; // Importado
 import Layout from './components/Layout';
+import Perfil from './pages/Perfil'; // Importa a página Perfil
+import ForgotPassword from "./pages/ForgotPassword";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -24,8 +26,9 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
-          {/* Rotas privadas com layout */}
+          {/* Rotas privadas dentro do Layout (navbar, etc) */}
           <Route
             path="/home"
             element={
@@ -36,6 +39,7 @@ createRoot(document.getElementById('root')!).render(
               </PrivateRoute>
             }
           />
+
           <Route
             path="/articles"
             element={
@@ -46,6 +50,7 @@ createRoot(document.getElementById('root')!).render(
               </PrivateRoute>
             }
           />
+
           <Route
             path="/my-articles"
             element={
@@ -56,6 +61,7 @@ createRoot(document.getElementById('root')!).render(
               </PrivateRoute>
             }
           />
+
           <Route
             path="/new-article"
             element={
@@ -66,6 +72,7 @@ createRoot(document.getElementById('root')!).render(
               </PrivateRoute>
             }
           />
+
           <Route
             path="/articles/:id"
             element={
@@ -76,12 +83,25 @@ createRoot(document.getElementById('root')!).render(
               </PrivateRoute>
             }
           />
+
           <Route
             path="/articles/:id/edit"
             element={
               <PrivateRoute>
                 <Layout>
                   <EditArticle />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+
+          {/* Rota nova: Perfil (apenas logados) */}
+          <Route
+            path="/perfil"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <Perfil />
                 </Layout>
               </PrivateRoute>
             }

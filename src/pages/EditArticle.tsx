@@ -49,25 +49,85 @@ const EditArticle = () => {
     }
   };
 
-  if (loading) return <p>Carregando...</p>;
+  if (loading) return <p style={{ textAlign: "center" }}>Carregando...</p>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>✏️ Editar Artigo</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Título:</label>
-          <input value={titulo} onChange={(e) => setTitulo(e.target.value)} required />
+    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto", fontFamily: "Arial" }}>
+      {/* Título da página */}
+      <h2 style={{ fontSize: "20px", marginBottom: "20px", textAlign: "center" }}>✏️ Editar Artigo</h2>
+
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        {/* Campo imagem */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Nova Imagem (opcional)</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImagem(e.target.files?.[0] || null)}
+            style={{
+              height: "40px",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              fontSize: "12px"
+            }}
+          />
         </div>
-        <div>
-          <label>Conteúdo:</label>
-          <textarea value={conteudo} onChange={(e) => setConteudo(e.target.value)} required />
+
+        {/* Campo título */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Título</label>
+          <input
+            type="text"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            required
+            placeholder="Edite o título"
+            style={{
+              height: "40px",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              fontSize: "14px"
+            }}
+          />
         </div>
-        <div>
-          <label>Nova Imagem (opcional):</label>
-          <input type="file" onChange={(e) => setImagem(e.target.files?.[0] ?? null)} />
+
+        {/* Campo conteúdo */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Texto</label>
+          <textarea
+            value={conteudo}
+            onChange={(e) => setConteudo(e.target.value)}
+            required
+            placeholder="Edite seu artigo"
+            style={{
+              minHeight: "120px",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              fontSize: "14px",
+              resize: "vertical"
+            }}
+          />
         </div>
-        <button type="submit">Salvar Alterações</button>
+
+        {/* Botão */}
+        <button
+          type="submit"
+          style={{
+            height: "45px",
+            backgroundColor: "#1b1b1b",
+            color: "#fff",
+            border: "none",
+            borderRadius: "10px",
+            fontSize: "14px",
+            fontWeight: "bold",
+            cursor: "pointer"
+          }}
+        >
+          Salvar Alterações
+        </button>
       </form>
     </div>
   );

@@ -18,7 +18,7 @@ export default function Login() {
       const res = await api.post('/api/auth/login', form);
       const { token, user } = res.data;
       login(token, user);
-      alert('Login realizado com sucesso!');
+      //alert('Login realizado com sucesso!');
       navigate('/home');
     } catch (err: any) {
       alert('Erro no login: ' + (err.response?.data?.error || err.message));
@@ -26,69 +26,177 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-white flex flex-row justify-center w-full min-h-screen items-center">
-      <div className="bg-white w-[375px] h-auto p-8 rounded-lg shadow-md">
-        <div className="flex flex-col w-full gap-6">
-          <div className="flex flex-col items-start gap-2 w-full">
-            <h1 className="font-bold text-2xl text-[#1b1b1b]">
-              Bem-vindo de volta!
-            </h1>
-            <p className="font-normal text-sm text-[#1b1b1b]">
-              Acesse sua conta para acompanhar artigos exclusivos, favoritar e muito mais.
-            </p>
-          </div>
-
-          <div className="border-none shadow-none w-full p-4 bg-white rounded-md">
-            <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
-              <input
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                className="min-w-60 h-12 px-4 py-3 bg-white rounded border border-solid border-[#9e9e9e] text-[#1b1b1b] font-sans"
-              />
-
-              <input
-                name="senha"
-                type="password"
-                placeholder="Senha"
-                value={form.senha}
-                onChange={handleChange}
-                required
-                className="min-w-60 h-12 px-4 py-3 bg-white rounded border border-solid border-[#9e9e9e] text-[#1b1b1b] font-sans"
-              />
-
-              <div
-                className="self-stretch text-right text-[10px] text-[#1b1b1b] cursor-pointer"
-                onClick={() => alert('Funcionalidade "Esqueceu a senha?" não implementada')}
-              >
-                Esqueceu a senha?
-              </div>
-
-              <button
-                type="submit"
-                className="flex h-[50px] items-center justify-center gap-2 px-4 py-2.5 w-full bg-zinc-900 rounded-2xl text-neutral-50 font-sans"
-              >
-                Login
-              </button>
-            </form>
-
-            <div className="flex items-center justify-center gap-2.5 px-[86px] py-0 self-stretch w-full">
-              <p className="text-[10px] text-center text-[#1b1b1b]">
-                <span>Novo usuário? </span>
-                <span
-                  className="text-black cursor-pointer font-semibold underline"
-                  onClick={() => navigate('/cadastro')}
-                >
-                  Clique aqui
-                </span>
-              </p>
-            </div>
-          </div>
+    <div
+      style={{
+        position: 'relative',
+        width: '375px',
+        height: '812px',
+        margin: '0 auto',
+        backgroundColor: '#FFFFFF',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '70px 36px 0',
+        gap: '70px',
+      }}
+    >
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '303px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '303px' }}>
+          <h1
+            style={{
+              fontFamily: 'Inter',
+              fontWeight: 700,
+              fontSize: '24px',
+              lineHeight: '120%',
+              color: '#1B1B1B',
+              margin: 0,
+            }}
+          >
+            Bem-vindo de volta!
+          </h1>
+          <p
+            style={{
+              fontFamily: 'Montserrat',
+              fontWeight: 400,
+              fontSize: '14px',
+              lineHeight: '150%',
+              color: '#1B1B1B',
+              margin: 0,
+            }}
+          >
+            Acesse sua conta para acompanhar artigos exclusivos, favoritar e muito mais.
+          </p>
         </div>
       </div>
+
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: '20px',
+          width: '303px',
+        }}
+      >
+        {/* Campo Email */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            style={{
+              boxSizing: 'border-box',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '12px 16px',
+              width: '100%',
+              height: '48px',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid #9E9E9E',
+              borderRadius: '4px',
+              fontFamily: 'Inter',
+              fontSize: '16px',
+              color: '#1B1B1B',
+            }}
+          />
+        </div>
+
+        {/* Campo Senha */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+          <input
+            name="senha"
+            type="password"
+            placeholder="Senha"
+            value={form.senha}
+            onChange={handleChange}
+            required
+            style={{
+              boxSizing: 'border-box',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '12px 16px',
+              width: '100%',
+              height: '48px',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid #9E9E9E',
+              borderRadius: '4px',
+              fontFamily: 'Inter',
+              fontSize: '16px',
+              color: '#1B1B1B',
+            }}
+          />
+        </div>
+
+        {/* Esqueceu a senha */}
+        <div
+          onClick={() => navigate('/forgot-password')}
+          style={{
+            width: '100%',
+            textAlign: 'right',
+            fontFamily: 'Inter',
+            fontSize: '10px',
+            color: '#1B1B1B',
+            cursor: 'pointer',
+          }}
+        >
+          Esqueceu a senha?
+        </div>
+
+        {/* Botão de login */}
+        <button
+          type="submit"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '10px 16px',
+            gap: '8px',
+            width: '100%',
+            height: '50px',
+            backgroundColor: '#18181B',
+            borderRadius: '16px',
+            color: '#FAFAFA',
+            fontFamily: 'Inter',
+            fontSize: '14px',
+            fontWeight: 500,
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
+          Login
+        </button>
+
+        {/* Link para cadastro */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '10px',
+            width: '100%',
+            height: '12px',
+            fontFamily: 'Inter',
+            fontSize: '10px',
+            color: '#1B1B1B',
+          }}
+        >
+          <span>Novo usuário?</span>
+          <span
+            onClick={() => navigate('/cadastro')}
+            style={{
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              fontWeight: '600',
+              color: '#1B1B1B',
+            }}
+          >
+            Clique aqui
+          </span>
+        </div>
+      </form>
     </div>
   );
 }

@@ -2,10 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import Navbar from '../components/Navbar';
 
 const NewArticle = () => {
-  const { user, token } = useAuth(); // ✅ usar user do contexto
+  const { user, token } = useAuth();
   const navigate = useNavigate();
 
   const [titulo, setTitulo] = useState("");
@@ -23,8 +22,7 @@ const NewArticle = () => {
     const formData = new FormData();
     formData.append("titulo", titulo);
     formData.append("conteudo", conteudo);
-    formData.append("autor_id", String(user.id)); // ✅ autor_id com base no user do contexto
-
+    formData.append("autor_id", String(user.id));
     if (imagem) {
       formData.append("imagem", imagem);
     }
@@ -46,39 +44,82 @@ const NewArticle = () => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <h2>Criar novo artigo</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Título:</label>
+    <div style={{ padding: "20px", maxWidth: "500px", margin: "0 auto", fontFamily: "Arial" }}>
+      {/* Título da página */}
+      <h2 style={{ fontSize: "20px", marginBottom: "20px", textAlign: "center" }}>Novo Artigo</h2>
+
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        {/* Campo imagem */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Banner</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImagem(e.target.files?.[0] || null)}
+            style={{
+              height: "40px",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              fontSize: "12px"
+            }}
+          />
+        </div>
+
+        {/* Campo título */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Título</label>
           <input
             type="text"
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
             required
+            placeholder="Adicione um título"
+            style={{
+              height: "40px",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              fontSize: "14px"
+            }}
           />
         </div>
 
-        <div>
-          <label>Conteúdo:</label>
+        {/* Campo conteúdo */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label style={{ fontWeight: "bold", fontSize: "12px" }}>Texto</label>
           <textarea
             value={conteudo}
             onChange={(e) => setConteudo(e.target.value)}
             required
+            placeholder="Escreva seu artigo"
+            style={{
+              minHeight: "120px",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "6px",
+              fontSize: "14px",
+              resize: "vertical"
+            }}
           />
         </div>
 
-        <div>
-          <label>Imagem:</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImagem(e.target.files?.[0] || null)}
-          />
-        </div>
-
-        <button type="submit">Publicar</button>
+        {/* Botão */}
+        <button
+          type="submit"
+          style={{
+            height: "45px",
+            backgroundColor: "#1b1b1b",
+            color: "#fff",
+            border: "none",
+            borderRadius: "10px",
+            fontSize: "14px",
+            fontWeight: "bold",
+            cursor: "pointer"
+          }}
+        >
+          Publicar
+        </button>
       </form>
     </div>
   );

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 interface User {
   id: number;
   email: string;
+  nome: string;
+  imagem?: string;
   // Adicione aqui outras propriedades que você queira do usuário
 }
 

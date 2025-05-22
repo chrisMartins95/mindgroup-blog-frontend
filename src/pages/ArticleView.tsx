@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth"; // 👈 importar o hook do auth
+import { useAuth } from "../hooks/useAuth";
 
 interface Article {
   id: number;
@@ -9,19 +9,8 @@ interface Article {
   conteudo: string;
   nome: string;
   data_publicacao: string;
-  imagem?: {
-    type: string;
-    data: number[];
-  } | null;
+  imagem?: string | null; // <- agora é string (nome do arquivo)
   autor_id: number;
-}
-
-function bufferToBase64(buffer: { data: number[] } | null | undefined): string | null {
-  if (!buffer?.data) return null;
-  const base64 = btoa(
-    new Uint8Array(buffer.data).reduce((data, byte) => data + String.fromCharCode(byte), "")
-  );
-  return `data:image/jpeg;base64,${base64}`;
 }
 
 const ArticleView: React.FC = () => {
@@ -31,13 +20,16 @@ const ArticleView: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { user, token } = useAuth(); // 👈 pega user e token do contexto
+  const { user, token } = useAuth();
 
   useEffect(() => {
     async function fetchArticle() {
       try {
         const response = await axios.get(`http://localhost:3000/api/articles/${id}`);
         setArticle(response.data);
+        console.log("Artigo carregado:", response.data);
+        // Veja o valor da imagem:
+        console.log("Valor de article.imagem:", response.data.imagem);
       } catch (err) {
         setError("Erro ao carregar artigo.");
       } finally {
@@ -66,46 +58,58 @@ const ArticleView: React.FC = () => {
     }
   };
 
-  if (loading) return <p>Carregando artigo...</p>;
-  if (error) return <p>{error}</p>;
-  if (!article) return <p>Artigo não encontrado.</p>;
-
-  const imageSrc = bufferToBase64(article.imagem);
+  if (loading) return <p style={{ textAlign: "center" }}>Carregando artigo...</p>;
+  if (error) return <p style={{ textAlign: "center" }}>{error}</p>;
+  if (!article) return <p style={{ textAlign: "center" }}>Artigo não encontrado.</p>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>{article.titulo}</h1>
-      <p>
+    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto", fontFamily: "Arial" }}>
+      {/* Título do artigo */}
+      <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>{article.titulo}</h1>
+
+      {/* Informações do autor e data */}
+      <p style={{ fontSize: "14px", color: "#555", marginBottom: "4px" }}>
         ✍️ <strong>Autor:</strong> {article.nome}
       </p>
-      <p>
+      <p style={{ fontSize: "14px", color: "#555", marginBottom: "20px" }}>
         📅 <strong>Publicado em:</strong>{" "}
         {new Date(article.data_publicacao).toLocaleDateString("pt-BR")}
       </p>
-      {imageSrc && (
+
+      {/* Imagem */}
+      {article.imagem && (
         <img
-          src={imageSrc}
+          src={`http://localhost:3000/uploads/${article.imagem}`}
           alt={article.titulo}
-          style={{ maxWidth: "400px", borderRadius: "6px", marginTop: "1rem" }}
+          style={{
+            maxWidth: "100%",
+            height: "auto",
+            borderRadius: "6px",
+            marginBottom: "20px",
+            display: "block"
+          }}
         />
       )}
-      <div style={{ marginTop: "2rem" }}>
-        <p>{article.conteudo}</p>
+
+      {/* Conteúdo */}
+      <div style={{ marginBottom: "30px", lineHeight: "1.6", fontSize: "15px", whiteSpace: "pre-wrap" }}>
+        {article.conteudo}
       </div>
 
-      {/* 🔐 Mostrar botões apenas se o usuário logado for o autor */}
+      {/* Botões de ação (se autor) */}
       {user?.id === article.autor_id && (
-        <div style={{ marginTop: "2rem" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
           <button
-            onClick={() => navigate(`/articles/${article.id}/edit`)} // ✅ Corrigido aqui
+            onClick={() => navigate(`/articles/${article.id}/edit`)}
             style={{
-              marginRight: "1rem",
-              padding: "0.5rem 1rem",
-              background: "#007bff",
-              color: "white",
+              padding: "10px 20px",
+              backgroundColor: "#1b1b1b",
+              color: "#fff",
               border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
+              borderRadius: "10px",
+              fontSize: "14px",
+              fontWeight: "bold",
+              cursor: "pointer"
             }}
           >
             ✏️ Editar
@@ -114,12 +118,14 @@ const ArticleView: React.FC = () => {
           <button
             onClick={handleDelete}
             style={{
-              padding: "0.5rem 1rem",
-              background: "#dc3545",
-              color: "white",
+              padding: "10px 20px",
+              backgroundColor: "#dc3545",
+              color: "#fff",
               border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
+              borderRadius: "10px",
+              fontSize: "14px",
+              fontWeight: "bold",
+              cursor: "pointer"
             }}
           >
             🗑️ Excluir
