@@ -1,10 +1,16 @@
+// Importa o StrictMode do React para ajudar a identificar problemas na aplicação durante o desenvolvimento
 import { StrictMode } from 'react';
+// Importa a função para criar a raiz da aplicação React
 import { createRoot } from 'react-dom/client';
+// Importa os componentes de roteamento do React Router
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+// Importa o contexto de autenticação para gerenciar o login do usuário em toda a aplicação
 import { AuthProvider } from './context/AuthContext';
+// Importa o componente de rota privada, que protege rotas que exigem autenticação
 import PrivateRoute from './components/PrivateRoute';
 
+// Importa as páginas principais da aplicação
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
@@ -12,29 +18,34 @@ import NewArticle from './pages/NewArticle';
 import ArticlesList from './pages/ArticlesList';
 import ArticleView from './pages/ArticleView';
 import EditArticle from './pages/EditArticle';
-import MyArticles from './pages/MyArticles'; // Importado
-import Layout from './components/Layout';
-import Perfil from './pages/Perfil'; // Importa a página Perfil
-import ForgotPassword from "./pages/ForgotPassword";
+import MyArticles from './pages/MyArticles'; // Página para listar artigos do usuário logado
+import Layout from './components/Layout'; // Componente de layout comum (navbar, etc)
+import Perfil from './pages/Perfil'; // Página de perfil do usuário
+import ForgotPassword from "./pages/ForgotPassword"; // Página de recuperação de senha
 
+// Cria a raiz da aplicação e renderiza todos os componentes dentro dela
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    {/* BrowserRouter permite navegação entre páginas sem recarregar o site */}
     <BrowserRouter>
+      {/* AuthProvider fornece o contexto de autenticação para todos os componentes filhos */}
       <AuthProvider>
+        {/* Define todas as rotas da aplicação */}
         <Routes>
-          {/* Rotas públicas */}
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cadastro" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/* Rotas públicas: acessíveis sem login */}
+          <Route path="/" element={<Login />} /> {/* Página inicial: tela de login */}
+          <Route path="/login" element={<Login />} /> {/* Rota alternativa para login */}
+          <Route path="/cadastro" element={<Register />} /> {/* Tela de cadastro de usuário */}
+          <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Recuperação de senha */}
 
-          {/* Rotas privadas dentro do Layout (navbar, etc) */}
+          {/* Rotas privadas: só acessíveis para usuários autenticados */}
+          {/* Todas as rotas privadas usam o componente Layout para manter a navegação e visual padrão */}
           <Route
             path="/home"
             element={
               <PrivateRoute>
                 <Layout>
-                  <Home />
+                  <Home /> {/* Página inicial após login */}
                 </Layout>
               </PrivateRoute>
             }
@@ -45,7 +56,7 @@ createRoot(document.getElementById('root')!).render(
             element={
               <PrivateRoute>
                 <Layout>
-                  <ArticlesList />
+                  <ArticlesList /> {/* Lista todos os artigos do sistema */}
                 </Layout>
               </PrivateRoute>
             }
@@ -56,7 +67,7 @@ createRoot(document.getElementById('root')!).render(
             element={
               <PrivateRoute>
                 <Layout>
-                  <MyArticles />
+                  <MyArticles /> {/* Lista apenas os artigos do usuário logado */}
                 </Layout>
               </PrivateRoute>
             }
@@ -67,7 +78,7 @@ createRoot(document.getElementById('root')!).render(
             element={
               <PrivateRoute>
                 <Layout>
-                  <NewArticle />
+                  <NewArticle /> {/* Página para criar um novo artigo */}
                 </Layout>
               </PrivateRoute>
             }
@@ -78,7 +89,7 @@ createRoot(document.getElementById('root')!).render(
             element={
               <PrivateRoute>
                 <Layout>
-                  <ArticleView />
+                  <ArticleView /> {/* Visualiza um artigo específico */}
                 </Layout>
               </PrivateRoute>
             }
@@ -89,19 +100,19 @@ createRoot(document.getElementById('root')!).render(
             element={
               <PrivateRoute>
                 <Layout>
-                  <EditArticle />
+                  <EditArticle /> {/* Edita um artigo específico */}
                 </Layout>
               </PrivateRoute>
             }
           />
 
-          {/* Rota nova: Perfil (apenas logados) */}
+          {/* Página de perfil do usuário logado */}
           <Route
             path="/perfil"
             element={
               <PrivateRoute>
                 <Layout>
-                  <Perfil />
+                  <Perfil /> {/* Exibe e permite editar dados do perfil */}
                 </Layout>
               </PrivateRoute>
             }

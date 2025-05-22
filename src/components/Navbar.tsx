@@ -1,15 +1,19 @@
+// Importa Link e hooks de navegação do React Router, hooks do React e contexto de autenticação
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
+  // Obtém funções de logout, usuário autenticado e hooks de navegação
   const { logout, user } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  // Estado para controlar se o menu dropdown está aberto
   const [menuAberto, setMenuAberto] = useState(false);
+  // Ref para detectar clique fora do dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Fecha dropdown ao clicar fora
+  // Fecha o dropdown ao clicar fora dele
   useEffect(() => {
     const handleClickFora = (event: MouseEvent) => {
       if (
@@ -25,6 +29,7 @@ const Navbar = () => {
     };
   }, []);
 
+  // Função para logout e redirecionamento
   const handleLogout = () => {
     logout();
     setMenuAberto(false);
@@ -32,6 +37,7 @@ const Navbar = () => {
   };
 
   return (
+    // Barra de navegação principal
     <nav
       style={{
         display: "flex",
@@ -61,6 +67,7 @@ const Navbar = () => {
       {/* Foto do usuário e menu dropdown */}
       {user ? (
         <div style={{ position: "relative" }} ref={dropdownRef}>
+          {/* Exibe imagem do usuário se houver, senão mostra inicial do nome */}
           {user.imagem ? (
             <img
               src={user.imagem}
@@ -97,6 +104,7 @@ const Navbar = () => {
             </div>
           )}
 
+          {/* Dropdown de opções do usuário */}
           {menuAberto && (
             <div
               style={{
@@ -156,6 +164,7 @@ const Navbar = () => {
   );
 };
 
+// Função utilitária para estilizar links da navbar
 const linkEstilo = (ativo = false): React.CSSProperties => ({
   textDecoration: "none",
   color: ativo ? "#1b1b1b" : "#333",
@@ -163,6 +172,7 @@ const linkEstilo = (ativo = false): React.CSSProperties => ({
   fontSize: "15px",
 });
 
+// Estilo dos botões do dropdown
 const btnStyle: React.CSSProperties = {
   background: "none",
   border: "none",

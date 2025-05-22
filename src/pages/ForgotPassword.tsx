@@ -1,17 +1,21 @@
+// Importa ícone, hooks de navegação, hooks de estado e CSS da página
 import { ArrowLeftIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../styles/forgotPassword.css";
 
 const ForgotPassword = () => {
+  // Hook para navegação entre páginas
   const navigate = useNavigate();
 
+  // Estado local para armazenar os dados do formulário de redefinição de senha
   const [form, setForm] = useState({
     email: "",
     novaSenha: "",
     confirmarNovaSenha: "",
   });
 
+  // Atualiza o estado do formulário conforme o usuário digita
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -20,23 +24,27 @@ const ForgotPassword = () => {
     }));
   };
 
+  // Função chamada ao enviar o formulário de redefinição de senha
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validação: senhas precisam ser iguais
     if (form.novaSenha !== form.confirmarNovaSenha) {
       alert("As senhas não conferem.");
       return;
     }
 
-    // Aqui você pode implementar a chamada API para enviar o link de redefinição
+    // Aqui seria feita a chamada à API para redefinir a senha
     alert("Link para redefinir senha enviado para seu email (simulado).");
   };
 
   return (
+    // Container principal da página de esqueci a senha
     <div className="forgot-container">
-      {/* Header */}
+      {/* Header da página */}
       <header>
         <div className="forgot-header">
+          {/* Botão para voltar para a página anterior */}
           <button
             onClick={() => navigate(-1)}
             className="back-button"
@@ -53,9 +61,10 @@ const ForgotPassword = () => {
         </p>
       </header>
 
-      {/* Formulário */}
+      {/* Formulário de redefinição de senha */}
       <main style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
         <form onSubmit={handleSubmit} className="forgot-form">
+          {/* Campo para email */}
           <input
             type="email"
             name="email"
@@ -66,6 +75,7 @@ const ForgotPassword = () => {
             className="forgot-input"
           />
 
+          {/* Campo para nova senha */}
           <input
             type="password"
             name="novaSenha"
@@ -76,6 +86,7 @@ const ForgotPassword = () => {
             className="forgot-input"
           />
 
+          {/* Campo para confirmar nova senha */}
           <input
             type="password"
             name="confirmarNovaSenha"
@@ -86,11 +97,13 @@ const ForgotPassword = () => {
             className="forgot-input"
           />
 
+          {/* Botão para enviar o formulário */}
           <button type="submit" className="forgot-button">
             Alterar
           </button>
         </form>
 
+        {/* Link para cadastro de novo usuário */}
         <div className="forgot-footer">
           <p style={{ margin: 0 }}>
             Novo usuário?{" "}
