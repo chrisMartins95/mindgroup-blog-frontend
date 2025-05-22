@@ -18,13 +18,13 @@ const Navbar = () => {
     >
       {/* Links à esquerda */}
       <div style={{ display: "flex", gap: "1.5rem" }}>
-        <Link to="/" style={{ fontWeight: "bold", textDecoration: "none" }}>
-          🏠 Início
+        <Link to="/home" style={{ fontWeight: "bold", textDecoration: "none" }}>
+          🏠 Home
         </Link>
 
-        <Link to="/articles" style={{ textDecoration: "none" }}>
-          📰 Artigos
-        </Link>
+         <Link to="/my-articles" style={{ textDecoration: "none" }}>
+            📰 Meus Artigos
+          </Link>
 
         {user && (
           <Link to="/new-article" style={{ textDecoration: "none" }}>
